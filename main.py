@@ -60,6 +60,8 @@ def uwuify_word(word):
         punct = word[-1]
         word = word[:-1]
 
+    original_word = word
+
     word = re.sub(r'[rl]', 'w', word)
     word = re.sub(r'[RL]', 'W', word)
     word = re.sub(r'n([aeiou])', r'ny\1', word)
@@ -74,8 +76,12 @@ def uwuify_word(word):
     if len(word) > 2 and random.random() < 0.15:
         word = f"{word[0]}-{word}"
 
-    return word + punct
+    if len(original_word) > 2 and original_word.isalpha() and random.random() < 0.10:
+        stutter_count = random.choice([1, 2])
+        stutter = "-".join([original_word[0]] * stutter_count)
+        word = f"{stutter}-{word}"
 
+    return word + punct
 def uwuify_text(text):
     words = text.split()
     uwuified = [uwuify_word(word) for word in words]
